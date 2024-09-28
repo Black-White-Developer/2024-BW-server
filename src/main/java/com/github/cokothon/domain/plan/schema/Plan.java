@@ -20,6 +20,8 @@ public class Plan extends BaseSchema {
 
 	private String content;
 
+	private int level;
+
 	@DBRef
 	private User author;
 

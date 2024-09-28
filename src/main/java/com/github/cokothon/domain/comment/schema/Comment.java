@@ -14,9 +14,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Comment extends BaseSchema {
 
-	private String parent;
+	private String parent; // board or plan
 
 	private String content;
+
+	private String type;
 
 	@DBRef
 	private User author;

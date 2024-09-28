@@ -1,5 +1,6 @@
 package com.github.cokothon.domain.plan.dto.request;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
@@ -10,6 +11,9 @@ public record CreatePlanRequest(
 	String title,
 
 	@NotBlank
-	String content
+	String content,
+
+	@Min(1)
+	int level
 ) {
 }

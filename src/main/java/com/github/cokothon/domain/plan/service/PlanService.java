@@ -65,12 +65,14 @@ public class PlanService {
 
 		String title = dto.title();
 		String content = dto.content();
+		int level = dto.level();
 
 		Plan plan = Plan.builder()
 						.title(title)
 						.content(content)
 						.author(user)
 						.like(List.of())
+						.level(level)
 						.build();
 
 		planRepository.save(plan);
