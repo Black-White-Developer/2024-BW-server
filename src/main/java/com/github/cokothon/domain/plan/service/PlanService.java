@@ -5,6 +5,7 @@ import java.util.List;
 import com.github.cokothon.domain.plan.dto.response.GetPlanResponse;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -87,5 +88,29 @@ public class PlanService {
 		}
 
 		planRepository.delete(plan);
+	}
+
+	public GetPlansResponse my(User user) {
+
+		Query query = new Query()
+				.addCriteria(Criteria.where("author").is(user));
+
+		List<Plan> plans = mongoTemplate.find(query, Plan.class);
+
+		return GetPlansResponse.builder()
+				.plans(plans)
+				.build();
+	}
+
+	public GetPlansResponse myLike(User user) {
+
+		Query query = new Query()
+				.addCriteria(Criteria.where("like").in(user));
+
+		List<Plan> plans = mongoTemplate.find(query, Plan.class);
+
+		return GetPlansResponse.builder()
+				.plans(plans)
+				.build();
 	}
 }

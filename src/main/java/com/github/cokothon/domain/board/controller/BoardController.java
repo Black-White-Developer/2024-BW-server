@@ -65,4 +65,22 @@ public class BoardController {
     public ApiResponse<GetBoardsResponse> getBestBoards(){
         return ApiResponse.ok(boardService.getBestBoards());
     }
+
+    @GetMapping("/my")
+    @PreAuthorize("isAuthenticated()")
+    public ApiResponse<GetBoardsResponse> my() {
+
+        User user = UserContext.getUser();
+
+        return ApiResponse.ok(boardService.my(user));
+    }
+
+    @GetMapping("/myLike")
+    @PreAuthorize("isAuthenticated()")
+    public ApiResponse<GetBoardsResponse> myLike() {
+
+        User user = UserContext.getUser();
+
+        return ApiResponse.ok(boardService.myLike(user));
+    }
 }

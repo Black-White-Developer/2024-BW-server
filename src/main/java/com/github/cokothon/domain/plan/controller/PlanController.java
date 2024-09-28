@@ -67,4 +67,22 @@ public class PlanController {
 
 		return ApiResponse.ok();
 	}
+
+	@GetMapping("/my")
+	@PreAuthorize("isAuthenticated()")
+	public ApiResponse<GetPlansResponse> my() {
+
+		User user = UserContext.getUser();
+
+		return ApiResponse.ok(planService.my(user));
+	}
+
+	@GetMapping("/myLike")
+	@PreAuthorize("isAuthenticated()")
+	public ApiResponse<GetPlansResponse> myLike() {
+
+		User user = UserContext.getUser();
+
+		return ApiResponse.ok(planService.myLike(user));
+	}
 }
