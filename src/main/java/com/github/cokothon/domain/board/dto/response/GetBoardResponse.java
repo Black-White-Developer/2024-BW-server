@@ -4,7 +4,7 @@ import com.github.cokothon.domain.board.schema.Board;
 import lombok.Builder;
 
 @Builder
-public record ReadBoardResponse(
+public record GetBoardResponse(
 
         Board board
 ) {

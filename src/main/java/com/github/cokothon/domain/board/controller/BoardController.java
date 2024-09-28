@@ -3,7 +3,8 @@ package com.github.cokothon.domain.board.controller;
 import com.github.cokothon.common.api.dto.response.ApiResponse;
 import com.github.cokothon.common.security.util.UserContext;
 import com.github.cokothon.domain.board.dto.request.CreateBoardRequest;
-import com.github.cokothon.domain.board.dto.response.ReadBoardResponse;
+import com.github.cokothon.domain.board.dto.response.GetBoardResponse;
+import com.github.cokothon.domain.board.dto.response.GetBoardsResponse;
 import com.github.cokothon.domain.board.service.BoardService;
 import com.github.cokothon.domain.user.schema.User;
 import jakarta.validation.Valid;
@@ -30,7 +31,7 @@ public class BoardController {
     }
 
     @GetMapping("/{boardId}")
-    public ApiResponse<ReadBoardResponse> readBoard(@PathVariable("boardId") String boardId) {
+    public ApiResponse<GetBoardResponse> readBoard(@PathVariable("boardId") String boardId) {
 
         return ApiResponse.ok(boardService.readBoard(boardId));
     }
@@ -53,5 +54,10 @@ public class BoardController {
         boardService.deleteBoard(boardId, user);
 
         return ApiResponse.ok();
+    }
+
+    @GetMapping()
+    public ApiResponse<GetBoardsResponse> getBoards() {
+        return ApiResponse.ok(boardService.getBoards());
     }
 }

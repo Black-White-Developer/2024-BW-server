@@ -2,13 +2,17 @@ package com.github.cokothon.domain.board.service;
 
 import com.github.cokothon.domain.auth.exception.NotPermitException;
 import com.github.cokothon.domain.board.dto.request.CreateBoardRequest;
-import com.github.cokothon.domain.board.dto.response.ReadBoardResponse;
+import com.github.cokothon.domain.board.dto.response.GetBoardResponse;
+import com.github.cokothon.domain.board.dto.response.GetBoardsResponse;
 import com.github.cokothon.domain.board.exception.BoardNotFoundException;
 import com.github.cokothon.domain.board.repository.BoardRepository;
 import com.github.cokothon.domain.board.schema.Board;
 import com.github.cokothon.domain.user.schema.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +34,11 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public ReadBoardResponse readBoard(String boardId) {
+    public GetBoardResponse readBoard(String boardId) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(BoardNotFoundException::new);
 
-        return ReadBoardResponse.builder()
+        return GetBoardResponse.builder()
                 .board(board)
                 .build();
     }
@@ -68,5 +72,14 @@ public class BoardService {
         }
 
         boardRepository.delete(board);
+    }
+
+    public GetBoardsResponse getBoards() {
+        List<Board> boards = boardRepository.findAll(Sort.by(Sort.Order.asc("createdAt")));
+
+        return GetBoardsResponse
+                .builder()
+                .boards(boards)
+                .build();
     }
 }
