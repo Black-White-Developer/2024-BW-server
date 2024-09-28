@@ -2,10 +2,13 @@ package com.github.cokothon.domain.board.service;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
+import com.github.cokothon.common.email.EmailSender;
 import com.github.cokothon.domain.auth.exception.NotPermitException;
 import com.github.cokothon.domain.board.dto.request.CreateBoardRequest;
 import com.github.cokothon.domain.board.dto.response.GetBoardResponse;
 import com.github.cokothon.domain.board.dto.response.GetBoardsResponse;
+import com.github.cokothon.domain.board.dto.response.IsMatchBoardResponse;
+import com.github.cokothon.domain.board.email.MatchTemplate;
 import com.github.cokothon.domain.board.exception.BoardNotFoundException;
 import com.github.cokothon.domain.board.repository.BoardRepository;
 import com.github.cokothon.domain.board.schema.Board;
@@ -16,6 +19,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +28,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MongoTemplate mongoTemplate;
+    private final EmailSender emailSender;
 
     public void createBoard(User user, CreateBoardRequest dto) {
 
@@ -35,6 +40,7 @@ public class BoardService {
                 .title(title)
                 .content(content)
                 .like(List.of())
+                .match(List.of())
                 .build();
 
         boardRepository.save(board);
@@ -106,5 +112,36 @@ public class BoardService {
         return GetBoardsResponse.builder()
                 .boards(boards)
                 .build();
+    }
+
+    public IsMatchBoardResponse isMatchBoard(User user, String boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(BoardNotFoundException::new);
+
+        return IsMatchBoardResponse.builder()
+                .isMatch(board.getMatch().contains(user))
+                .build();
+    }
+
+    public void matchBoard(User user, String boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(BoardNotFoundException::new);
+
+        if (board.getAuthor().equals(user)) {
+            throw new NotPermitException();
+        }
+
+        List<User> match = new ArrayList<>(board.getMatch());
+
+        if (match.contains(user)) {
+            return;
+        }
+
+        match.add(user);
+        board.setMatch(match);
+
+        emailSender.send(board.getAuthor().getEmail(), MatchTemplate.of(board, user));
+
+        boardRepository.save(board);
     }
 }

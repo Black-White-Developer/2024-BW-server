@@ -24,5 +24,6 @@ public class Board extends BaseSchema {
     @DBRef
     private List<User> like;
 
-    private boolean matched;
+    @DBRef
+    private List<User> match;
 }

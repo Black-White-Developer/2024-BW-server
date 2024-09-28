@@ -5,6 +5,7 @@ import com.github.cokothon.common.security.util.UserContext;
 import com.github.cokothon.domain.board.dto.request.CreateBoardRequest;
 import com.github.cokothon.domain.board.dto.response.GetBoardResponse;
 import com.github.cokothon.domain.board.dto.response.GetBoardsResponse;
+import com.github.cokothon.domain.board.dto.response.IsMatchBoardResponse;
 import com.github.cokothon.domain.board.service.BoardService;
 import com.github.cokothon.domain.user.schema.User;
 import jakarta.validation.Valid;
@@ -64,5 +65,25 @@ public class BoardController {
     @GetMapping("/best")
     public ApiResponse<GetBoardsResponse> getBestBoards(){
         return ApiResponse.ok(boardService.getBestBoards());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/match/{boardId}")
+    public ApiResponse<IsMatchBoardResponse> isMatchBoard(@PathVariable("boardId") String boardId) {
+
+        User user = UserContext.getUser();
+
+        return ApiResponse.ok(boardService.isMatchBoard(user, boardId));
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/match/{boardId}")
+    public ApiResponse<Void> matchBoard(@PathVariable("boardId") String boardId) {
+
+        User user = UserContext.getUser();
+
+        boardService.matchBoard(user, boardId);
+
+        return ApiResponse.ok();
     }
 }
