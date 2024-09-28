@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "app.jwt.key",
+      "type": "java.lang.String",
+      "description": "key for jwt token signing."
+    },
+    {
+      "name": "app.jwt.expiration-hours",
+      "type": "java.lang.Integer",
+      "description": "seconds of expiration time for access token."
+    }
+  ]
+}

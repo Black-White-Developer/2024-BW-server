@@ -1,0 +1,4 @@
+app:
+  jwt:
+    key: secret
+    expiration-hours: 24

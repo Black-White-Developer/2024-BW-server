@@ -1,16 +1,13 @@
+# Build
 FROM eclipse-temurin:17-jdk AS build
 
 WORKDIR /app
 
-COPY gradlew* build.gradle settings.gradle ./
-COPY gradle ./gradle
+COPY . .
 
-RUN ./gradlew build --no-daemon --stacktrace --refresh-dependencies
+RUN ./gradlew bootJar
 
-COPY src ./src
-
-RUN ./gradlew clean build -x test --no-daemon
-
+# Runtime
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app
