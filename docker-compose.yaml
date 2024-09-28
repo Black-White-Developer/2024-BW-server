@@ -1,0 +1,5 @@
+services:
+  backend:
+    image: ioloolo/cokothon-image:latest
+    ports:
+      - "8080:8080"
