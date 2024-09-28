@@ -35,8 +35,10 @@ public class BoardService {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(BoardNotFoundException::new);
 
-        return ReadBoardResponse.builder()
+        ReadBoardResponse readBoardResponse = ReadBoardResponse.builder()
                 .board(board)
                 .build();
+
+        return readBoardResponse;
     }
 }
