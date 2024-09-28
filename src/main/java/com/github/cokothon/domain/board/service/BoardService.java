@@ -1,5 +1,7 @@
 package com.github.cokothon.domain.board.service;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+
 import com.github.cokothon.domain.auth.exception.NotPermitException;
 import com.github.cokothon.domain.board.dto.request.CreateBoardRequest;
 import com.github.cokothon.domain.board.dto.response.GetBoardResponse;
@@ -12,12 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.addFields;
 
 @Service
 @RequiredArgsConstructor
@@ -91,12 +90,18 @@ public class BoardService {
     }
 
     public GetBoardsResponse getBestBoards() {
+        Aggregation aggregation = newAggregation(
+            addFields().addField("likeCount")
+                       .withValueOfExpression("size(like)")
+                       .build(),
 
-        Aggregation aggregation = Aggregation.newAggregation(
-                addFields().addField("likeCount").withValueOfToArraySize("like").build(),
+            sort(Sort.Direction.DESC, "likeCount"),
 
+            limit(10)
+        );
 
-        )
+        List<Board> boards = mongoTemplate.aggregate(aggregation, "board", Board.class)
+                .getMappedResults();
 
         return GetBoardsResponse.builder()
                 .boards(boards)
