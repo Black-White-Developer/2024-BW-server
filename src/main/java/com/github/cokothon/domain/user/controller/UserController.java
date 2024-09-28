@@ -24,49 +24,49 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+	private final UserService userService;
 
-    @PutMapping("/my/info")
-    @PreAuthorize("isAuthenticated()")
-    public ApiResponse<Void> changeInfo(@RequestBody @Valid ChangeInfoRequest request) {
+	@PutMapping("/my/info")
+	@PreAuthorize("isAuthenticated()")
+	public ApiResponse<Void> changeInfo(@RequestBody @Valid ChangeInfoRequest request) {
 
-        User user = UserContext.getUser();
+		User user = UserContext.getUser();
 
-        userService.changeInfo(user, request);
+		userService.changeInfo(user, request);
 
-        return ApiResponse.ok();
-    }
+		return ApiResponse.ok();
+	}
 
-    @PutMapping("/my/password")
-    @PreAuthorize("isAuthenticated()")
-    public ApiResponse<Void> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
+	@PutMapping("/my/password")
+	@PreAuthorize("isAuthenticated()")
+	public ApiResponse<Void> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
 
-        User user = UserContext.getUser();
+		User user = UserContext.getUser();
 
-        userService.changePassword(user, request);
+		userService.changePassword(user, request);
 
-        return ApiResponse.ok();
-    }
+		return ApiResponse.ok();
+	}
 
-    @PutMapping("/my/avatar")
-    @PreAuthorize("isAuthenticated()")
-    public ApiResponse<Void> changeAvatar(@RequestPart("avatar") MultipartFile avatar) {
+	@PutMapping("/my/avatar")
+	@PreAuthorize("isAuthenticated()")
+	public ApiResponse<Void> changeAvatar(@RequestPart("avatar") MultipartFile avatar) {
 
-        User user = UserContext.getUser();
+		User user = UserContext.getUser();
 
-        userService.changeAvatar(user, avatar);
+		userService.changeAvatar(user, avatar);
 
-        return ApiResponse.ok();
-    }
+		return ApiResponse.ok();
+	}
 
-    @DeleteMapping("/my/avatar")
-    @PreAuthorize("isAuthenticated()")
-    public ApiResponse<Void> deleteAvatar() {
+	@DeleteMapping("/my/avatar")
+	@PreAuthorize("isAuthenticated()")
+	public ApiResponse<Void> deleteAvatar() {
 
-        User user = UserContext.getUser();
+		User user = UserContext.getUser();
 
-        userService.deleteAvatar(user);
+		userService.deleteAvatar(user);
 
-        return ApiResponse.ok();
-    }
+		return ApiResponse.ok();
+	}
 }

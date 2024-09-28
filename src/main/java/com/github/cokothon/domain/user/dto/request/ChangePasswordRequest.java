@@ -5,11 +5,11 @@ import jakarta.validation.constraints.Pattern;
 
 public record ChangePasswordRequest(
 
-        @NotBlank
-        String password,
+	@NotBlank
+	String password,
 
-        @NotBlank
-        @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)\\S{8,}$")
-        String newPassword
+	@NotBlank
+	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)\\S{8,}$")
+	String newPassword
 ) {
 }

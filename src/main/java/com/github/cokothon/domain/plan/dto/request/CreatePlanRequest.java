@@ -6,10 +6,10 @@ import lombok.Builder;
 @Builder
 public record CreatePlanRequest(
 
-        @NotBlank
-        String title,
+	@NotBlank
+	String title,
 
-        @NotBlank
-        String content
+	@NotBlank
+	String content
 ) {
 }

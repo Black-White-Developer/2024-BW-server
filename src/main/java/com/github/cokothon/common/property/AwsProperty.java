@@ -12,29 +12,29 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "cloud.aws")
 public class AwsProperty {
 
-    @NotBlank
-    private String region;
+	@NotBlank
+	private String region;
 
-    @NestedConfigurationProperty
-    private S3 s3;
+	@NestedConfigurationProperty
+	private S3 s3;
 
-    @NestedConfigurationProperty
-    private Credential credential;
+	@NestedConfigurationProperty
+	private Credential credential;
 
-    @Data
-    public static class S3 {
+	@Data
+	public static class S3 {
 
-        @NotBlank
-        private String bucket;
-    }
+		@NotBlank
+		private String bucket;
+	}
 
-    @Data
-    public static class Credential {
+	@Data
+	public static class Credential {
 
-        @NotBlank
-        private String accessKey;
+		@NotBlank
+		private String accessKey;
 
-        @NotBlank
-        private String secretKey;
-    }
+		@NotBlank
+		private String secretKey;
+	}
 }

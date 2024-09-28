@@ -7,8 +7,8 @@ import lombok.Builder;
 @Builder
 public record SendVerifyCodeRequest(
 
-        @NotBlank
-        @Email
-        String email
+	@NotBlank
+	@Email
+	String email
 ) {
 }

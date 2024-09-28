@@ -6,10 +6,10 @@ import lombok.Builder;
 @Builder
 public record CheckVerifyCodeRequest(
 
-        @NotBlank
-        String email,
+	@NotBlank
+	String email,
 
-        @NotBlank
-        String verifyCode
+	@NotBlank
+	String verifyCode
 ) {
 }

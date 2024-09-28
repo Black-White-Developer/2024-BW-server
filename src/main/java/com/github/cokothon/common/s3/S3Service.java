@@ -34,16 +34,19 @@ public class S3Service {
 
 	public String uploadFile(String key, InputStream inputStream, ObjectMetadata objectMetadata) {
 
-		PutObjectRequest putObjectRequest = new PutObjectRequest(awsProperty.getS3().getBucket(), key, inputStream, objectMetadata)
+		PutObjectRequest putObjectRequest = new PutObjectRequest(awsProperty.getS3()
+																			.getBucket(), key, inputStream, objectMetadata)
 			.withCannedAcl(CannedAccessControlList.PublicRead);
 
 		amazonS3Client.putObject(putObjectRequest);
 
-		return "https://" + awsProperty.getS3().getBucket() + ".s3." + awsProperty.getRegion() + ".amazonaws.com/" + key;
+		return "https://" + awsProperty.getS3()
+									   .getBucket() + ".s3." + awsProperty.getRegion() + ".amazonaws.com/" + key;
 	}
 
 	public void deleteFile(String key) {
 
-		amazonS3Client.deleteObject(awsProperty.getS3().getBucket(), key);
+		amazonS3Client.deleteObject(awsProperty.getS3()
+											   .getBucket(), key);
 	}
 }

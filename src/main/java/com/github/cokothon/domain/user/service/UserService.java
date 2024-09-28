@@ -20,62 +20,66 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final S3Service s3Service;
+	private final UserRepository userRepository;
+	private final S3Service s3Service;
 
-    private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
+	private final AuthenticationManager authenticationManager;
+	private final PasswordEncoder passwordEncoder;
 
-    public void changeInfo(User user, ChangeInfoRequest dto) {
+	public void changeInfo(User user, ChangeInfoRequest dto) {
 
-        String nickname = dto.nickname();
+		String nickname = dto.nickname();
 
-        user.setNickname(nickname);
+		user.setNickname(nickname);
 
-        userRepository.save(user);
-    }
+		userRepository.save(user);
+	}
 
-    public void changePassword(User user, ChangePasswordRequest dto) {
+	public void changePassword(User user, ChangePasswordRequest dto) {
 
-        String password = dto.password();
-        String newPassword = dto.newPassword();
+		String password = dto.password();
+		String newPassword = dto.newPassword();
 
-        UserAuthentication authentication = new UserAuthentication(user, password);
-        Authentication authenticate = authenticationManager.authenticate(authentication);
+		UserAuthentication authentication = new UserAuthentication(user, password);
+		Authentication authenticate = authenticationManager.authenticate(authentication);
 
-        assert authenticate.isAuthenticated();
+		assert authenticate.isAuthenticated();
 
-        user.setPassword(passwordEncoder.encode(newPassword));
+		user.setPassword(passwordEncoder.encode(newPassword));
 
-        userRepository.save(user);
-    }
+		userRepository.save(user);
+	}
 
-    public void changeAvatar(User user, MultipartFile avatar) {
+	public void changeAvatar(User user, MultipartFile avatar) {
 
-        if (avatar.getOriginalFilename() == null || avatar.getContentType() != null && !avatar.getContentType().startsWith("image")) {
+		if (avatar.getOriginalFilename() == null || avatar.getContentType() != null && !avatar.getContentType()
+																							  .startsWith("image")) {
 
-            throw new AvatarNotImageException();
-        }
+			throw new AvatarNotImageException();
+		}
 
-        String extension = avatar.getOriginalFilename().substring(avatar.getOriginalFilename().lastIndexOf(".") + 1);
-        String avatarUrl = s3Service.uploadFile("avatar/%s.%s".formatted(user.getId(), extension), avatar);
+		String extension = avatar.getOriginalFilename()
+								 .substring(avatar.getOriginalFilename()
+												  .lastIndexOf(".") + 1);
+		String avatarUrl = s3Service.uploadFile("avatar/%s.%s".formatted(user.getId(), extension), avatar);
 
-        user.setAvatar(avatarUrl);
+		user.setAvatar(avatarUrl);
 
-        userRepository.save(user);
-    }
+		userRepository.save(user);
+	}
 
-    public void deleteAvatar(User user) {
+	public void deleteAvatar(User user) {
 
-        if (user.getAvatar() == null) {
+		if (user.getAvatar() == null) {
 
-            return;
-        }
+			return;
+		}
 
-        s3Service.deleteFile(user.getAvatar().split("amazonaws.com/")[1]);
+		s3Service.deleteFile(user.getAvatar()
+								 .split("amazonaws.com/")[1]);
 
-        user.setAvatar(null);
+		user.setAvatar(null);
 
-        userRepository.save(user);
-    }
+		userRepository.save(user);
+	}
 }

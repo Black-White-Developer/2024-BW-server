@@ -35,19 +35,20 @@ public class JwtUtil {
 	public String generateToken(String userId) {
 
 		return JWT.create()
-			.withIssuedAt(Instant.now())
-			.withExpiresAt(Instant.now().plus(jwtProperty.getExpirationHours(), ChronoUnit.HOURS))
-			.withClaim("id", userId)
-			.sign(algorithm);
+				  .withIssuedAt(Instant.now())
+				  .withExpiresAt(Instant.now()
+										.plus(jwtProperty.getExpirationHours(), ChronoUnit.HOURS))
+				  .withClaim("id", userId)
+				  .sign(algorithm);
 	}
 
 	public String extractToken(String token) {
 
 		return JWT.require(algorithm)
-			.build()
-			.verify(token)
-			.getClaim("id")
-			.asString();
+				  .build()
+				  .verify(token)
+				  .getClaim("id")
+				  .asString();
 	}
 
 	public boolean validateToken(String token) {
@@ -58,7 +59,9 @@ public class JwtUtil {
 				return false;
 			}
 
-			JWT.require(algorithm).build().verify(token);
+			JWT.require(algorithm)
+			   .build()
+			   .verify(token);
 		} catch (Exception ignored) {
 			return false;
 		}

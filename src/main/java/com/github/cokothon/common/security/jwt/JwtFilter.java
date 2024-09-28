@@ -38,12 +38,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
 			String id = jwtUtil.extractToken(accessToken);
 			User user = repository.findById(id)
-				.orElseThrow(AuthenticationFailException::new);
+								  .orElseThrow(AuthenticationFailException::new);
 
 			UserAuthentication authentication = new UserAuthentication(user);
 			authentication.setAuthenticated(true);
 
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+			SecurityContextHolder.getContext()
+								 .setAuthentication(authentication);
 		}
 
 		filterChain.doFilter(request, response);

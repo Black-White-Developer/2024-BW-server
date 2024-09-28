@@ -1,13 +1,14 @@
 package com.github.cokothon.domain.auth.repository;
 
-import com.github.cokothon.domain.auth.schema.VerifyCode;
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.github.cokothon.domain.auth.schema.VerifyCode;
 
 @Repository
 public interface VerifyCodeRepository extends CrudRepository<VerifyCode, Long> {
 
-    Optional<VerifyCode> findByEmail(String email);
+	Optional<VerifyCode> findByEmail(String email);
 }

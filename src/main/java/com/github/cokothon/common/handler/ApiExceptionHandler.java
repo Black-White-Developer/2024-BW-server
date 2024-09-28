@@ -45,13 +45,18 @@ public class ApiExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ApiResponse<?> methodArgumentNotValidException(MethodArgumentNotValidException e) {
 
-		if (e.getBindingResult().getFieldError() == null) {
+		if (e.getBindingResult()
+			 .getFieldError() == null) {
 
 			return ApiResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 
-		String field = e.getBindingResult().getFieldError().getField();
-		String message = e.getBindingResult().getFieldError().getDefaultMessage();
+		String field = e.getBindingResult()
+						.getFieldError()
+						.getField();
+		String message = e.getBindingResult()
+						  .getFieldError()
+						  .getDefaultMessage();
 		String errorMessage = String.format("%s은(는) %s", field, message);
 
 		return ApiResponse.error(HttpStatus.BAD_REQUEST, errorMessage);

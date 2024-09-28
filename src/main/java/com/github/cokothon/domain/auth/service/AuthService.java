@@ -83,7 +83,8 @@ public class AuthService {
 		VerifyCode verifyCode = verifyCodeRepository.findByEmail(email)
 													.orElseThrow(InvalidVerifyCodeException::new);
 
-		if (!verifyCode.code().equals(verifyCodeRaw)) {
+		if (!verifyCode.code()
+					   .equals(verifyCodeRaw)) {
 
 			throw new InvalidVerifyCodeException();
 		}
@@ -112,7 +113,9 @@ public class AuthService {
 		VerifyCode verifyCode = verifyCodeRepository.findByEmail(email)
 													.orElseGet(() -> {
 														String verifyCodeRaw = IntStream.range(0, 6)
-																						.mapToObj(i -> String.valueOf("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".charAt((int) (Math.random() * 36))))
+																						.mapToObj(i -> String.valueOf(
+																							"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".charAt(
+																								(int)(Math.random() * 36))))
 																						.collect(java.util.stream.Collectors.joining());
 
 														VerifyCode internalVerifyCode = VerifyCode.builder()
@@ -134,7 +137,8 @@ public class AuthService {
 		String verifyCodeRaw = dto.verifyCode();
 
 		boolean isVerified = verifyCodeRepository.findByEmail(email)
-												 .map(verifyCode -> verifyCode.code().equals(verifyCodeRaw))
+												 .map(verifyCode -> verifyCode.code()
+																			  .equals(verifyCodeRaw))
 												 .orElse(false);
 
 		return CheckVerifyCodeResponse.builder()
