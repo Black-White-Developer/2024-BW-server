@@ -67,6 +67,11 @@ public class UserService {
 
     public void deleteAvatar(User user) {
 
+        if (user.getAvatar() == null) {
+
+            return;
+        }
+
         s3Service.deleteFile(user.getAvatar().split("amazonaws.com/")[1]);
 
         user.setAvatar(null);
