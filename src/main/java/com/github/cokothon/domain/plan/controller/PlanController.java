@@ -1,5 +1,6 @@
 package com.github.cokothon.domain.plan.controller;
 
+import com.github.cokothon.domain.plan.dto.response.GetPlanResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,13 @@ public class PlanController {
 		return ApiResponse.ok(planService.getPlans());
 	}
 
+	@GetMapping("/{planId}")
+	public ApiResponse<GetPlanResponse> getPlan(@PathVariable("planId") String planId) {
+
+
+		return ApiResponse.ok(planService.getPlan(planId));
+	}
+
 	@GetMapping("/best")
 	public ApiResponse<GetPlansResponse> getBestPlans() {
 
@@ -58,5 +66,23 @@ public class PlanController {
 		planService.deletePlan(user, planId);
 
 		return ApiResponse.ok();
+	}
+
+	@GetMapping("/my")
+	@PreAuthorize("isAuthenticated()")
+	public ApiResponse<GetPlansResponse> my() {
+
+		User user = UserContext.getUser();
+
+		return ApiResponse.ok(planService.my(user));
+	}
+
+	@GetMapping("/myLike")
+	@PreAuthorize("isAuthenticated()")
+	public ApiResponse<GetPlansResponse> myLike() {
+
+		User user = UserContext.getUser();
+
+		return ApiResponse.ok(planService.myLike(user));
 	}
 }

@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -108,6 +110,30 @@ public class BoardService {
 
         List<Board> boards = mongoTemplate.aggregate(aggregation, "board", Board.class)
                 .getMappedResults();
+
+        return GetBoardsResponse.builder()
+                .boards(boards)
+                .build();
+    }
+
+    public GetBoardsResponse my(User user) {
+
+        Query query = new Query()
+                .addCriteria(Criteria.where("author").is(user));
+
+        List<Board> boards = mongoTemplate.find(query, Board.class);
+
+        return GetBoardsResponse.builder()
+                .boards(boards)
+                .build();
+    }
+
+    public GetBoardsResponse myLike(User user) {
+
+        Query query = new Query()
+                .addCriteria(Criteria.where("like").in(user));
+
+        List<Board> boards = mongoTemplate.find(query, Board.class);
 
         return GetBoardsResponse.builder()
                 .boards(boards)
