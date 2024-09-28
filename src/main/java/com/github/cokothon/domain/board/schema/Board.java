@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.List;
+
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = true)
@@ -19,7 +21,8 @@ public class Board extends BaseSchema {
     @DBRef
     private User author;
 
-    private int like;
+    @DBRef
+    private List<User> like;
 
     private boolean matched;
 }

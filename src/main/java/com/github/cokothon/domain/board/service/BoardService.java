@@ -29,6 +29,7 @@ public class BoardService {
                 .author(user)
                 .title(title)
                 .content(content)
+                .like(List.of())
                 .build();
 
         boardRepository.save(board);
