@@ -36,11 +36,21 @@ public class BoardController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping("/modify/{boardId}")
+    @PutMapping("/{boardId}")
     public ApiResponse<Void> modifyBoard(@PathVariable("boardId") String boardId, @RequestBody CreateBoardRequest dto) {
         User user = UserContext.getUser();
 
         boardService.modifyBoard(boardId, user, dto);
+
+        return ApiResponse.ok();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/{boardId}")
+    public ApiResponse<Void> deleteBoard(@PathVariable("boardId") String boardId) {
+        User user = UserContext.getUser();
+
+        boardService.deleteBoard(boardId, user);
 
         return ApiResponse.ok();
     }

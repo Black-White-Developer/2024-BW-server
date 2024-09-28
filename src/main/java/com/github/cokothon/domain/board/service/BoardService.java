@@ -56,4 +56,17 @@ public class BoardService {
         boardRepository.save(board);
     }
 
+    public void deleteBoard(String boardId, User user) {
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(BoardNotFoundException::new);
+
+        if(!board.getAuthor()
+                .equals(user)) {
+
+            throw new NotPermitException();
+        }
+
+        boardRepository.delete(board);
+    }
 }
