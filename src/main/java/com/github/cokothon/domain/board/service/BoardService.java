@@ -153,10 +153,6 @@ public class BoardService {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(BoardNotFoundException::new);
 
-        if (board.getAuthor().equals(user)) {
-            throw new NotPermitException();
-        }
-
         List<User> match = new ArrayList<>(board.getMatch());
 
         if (match.contains(user)) {
