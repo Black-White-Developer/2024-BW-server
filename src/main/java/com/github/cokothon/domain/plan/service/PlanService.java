@@ -2,6 +2,7 @@ package com.github.cokothon.domain.plan.service;
 
 import java.util.List;
 
+import com.github.cokothon.domain.plan.dto.response.GetPlanResponse;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -31,6 +32,16 @@ public class PlanService {
 		return GetPlansResponse.builder()
 							   .plans(plans)
 							   .build();
+	}
+
+	public GetPlanResponse getPlan(String planId) {
+
+		Plan plan = planRepository.findById(planId)
+				.orElseThrow(PlanNotFoundException::new);
+
+		return GetPlanResponse.builder()
+				.plan(plan)
+				.build();
 	}
 
 	public GetPlansResponse getBestPlans() {

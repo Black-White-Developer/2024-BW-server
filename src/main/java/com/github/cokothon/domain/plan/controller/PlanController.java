@@ -1,5 +1,6 @@
 package com.github.cokothon.domain.plan.controller;
 
+import com.github.cokothon.domain.plan.dto.response.GetPlanResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,13 @@ public class PlanController {
 	public ApiResponse<GetPlansResponse> getPlans() {
 
 		return ApiResponse.ok(planService.getPlans());
+	}
+
+	@GetMapping("/{planId}")
+	public ApiResponse<GetPlanResponse> getPlan(@PathVariable("planId") String planId) {
+
+
+		return ApiResponse.ok(planService.getPlan(planId));
 	}
 
 	@GetMapping("/best")
