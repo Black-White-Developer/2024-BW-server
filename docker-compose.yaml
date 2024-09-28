@@ -1,5 +1,5 @@
 services:
   backend:
-    image: ioloolo/cokothon-image:latest
+    image: ioloolo/cokothon-idea-bank-backend:latest
     ports:
       - "8080:8080"
