@@ -4,12 +4,12 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 @Builder
-public record LoginRequest(
+public record CheckVerifyCodeRequest(
 
-	@NotBlank
-	String email,
+        @NotBlank
+        String email,
 
-	@NotBlank
-	String password
+        @NotBlank
+        String verifyCode
 ) {
 }

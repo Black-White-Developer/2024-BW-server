@@ -27,12 +27,12 @@ public class JwtUtil {
 		algorithm = Algorithm.HMAC256(jwtProperty.getKey());
 	}
 
-	public String generateAccessToken(User user) {
+	public String generateToken(User user) {
 
-		return generateAccessToken(user.getId());
+		return generateToken(user.getId());
 	}
 
-	public String generateAccessToken(String userId) {
+	public String generateToken(String userId) {
 
 		return JWT.create()
 			.withIssuedAt(Instant.now())

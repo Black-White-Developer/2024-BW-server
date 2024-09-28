@@ -1,9 +1,11 @@
 package com.github.cokothon.common.security.authentication;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.github.cokothon.domain.user.schema.User;
 
@@ -28,7 +30,7 @@ public class UserAuthentication implements Authentication {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
-		return user.getRole().getAuthorization();
+		return List.of(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 
 	@Override

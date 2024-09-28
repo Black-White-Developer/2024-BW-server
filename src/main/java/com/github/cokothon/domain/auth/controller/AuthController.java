@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.cokothon.common.api.dto.response.ApiResponse;
 import com.github.cokothon.common.security.util.UserContext;
+import com.github.cokothon.domain.auth.dto.request.CheckVerifyCodeRequest;
 import com.github.cokothon.domain.auth.dto.request.LoginRequest;
 import com.github.cokothon.domain.auth.dto.request.RegisterRequest;
+import com.github.cokothon.domain.auth.dto.request.SendVerifyCodeRequest;
+import com.github.cokothon.domain.auth.dto.response.CheckVerifyCodeResponse;
 import com.github.cokothon.domain.auth.dto.response.LoginResponse;
 import com.github.cokothon.domain.auth.dto.response.MyInfoResponse;
 import com.github.cokothon.domain.auth.service.AuthService;
@@ -38,6 +41,20 @@ public class AuthController {
 		authService.register(request);
 
 		return ApiResponse.ok();
+	}
+
+	@PostMapping("/verify-code/send")
+	public ApiResponse<Void> sendVerifyCode(@RequestBody @Valid SendVerifyCodeRequest request) {
+
+		authService.sendVerifyCode(request);
+
+		return ApiResponse.ok();
+	}
+
+	@PostMapping("/verify-code/check")
+	public ApiResponse<CheckVerifyCodeResponse> register(@RequestBody @Valid CheckVerifyCodeRequest request) {
+
+		return ApiResponse.ok(authService.checkVerifyCode(request));
 	}
 
 	@GetMapping("/me")

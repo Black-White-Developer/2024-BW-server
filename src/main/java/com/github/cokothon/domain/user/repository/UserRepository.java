@@ -10,7 +10,8 @@ import com.github.cokothon.domain.user.schema.User;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
 
-	Optional<User> findByUsername(String username);
+	Optional<User> findByEmail(String email);
 
-	boolean existsByUsername(String username);
+	boolean existsByEmail(String email);
+	boolean existsByNickname(String nickname);
 }

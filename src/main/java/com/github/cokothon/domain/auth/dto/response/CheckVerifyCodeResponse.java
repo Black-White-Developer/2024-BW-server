@@ -3,8 +3,8 @@ package com.github.cokothon.domain.auth.dto.response;
 import lombok.Builder;
 
 @Builder
-public record LoginResponse(
+public record CheckVerifyCodeResponse(
 
-	String token
+        boolean isVerified
 ) {
 }
