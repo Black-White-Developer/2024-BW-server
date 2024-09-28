@@ -22,6 +22,8 @@ public class User extends BaseSchema {
 
 	private String nickname;
 
+	private String avatar;
+
 	private int level;
 }
 
