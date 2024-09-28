@@ -60,4 +60,9 @@ public class BoardController {
     public ApiResponse<GetBoardsResponse> getBoards() {
         return ApiResponse.ok(boardService.getBoards());
     }
+
+    @GetMapping("/best")
+    public ApiResponse<GetBoardsResponse> getBestBoards(){
+        return ApiResponse.ok(boardService.getBestBoards());
+    }
 }

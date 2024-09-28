@@ -10,15 +10,21 @@ import com.github.cokothon.domain.board.schema.Board;
 import com.github.cokothon.domain.user.schema.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.addFields;
 
 @Service
 @RequiredArgsConstructor
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final MongoTemplate mongoTemplate;
 
     public void createBoard(User user, CreateBoardRequest dto) {
 
@@ -80,6 +86,19 @@ public class BoardService {
 
         return GetBoardsResponse
                 .builder()
+                .boards(boards)
+                .build();
+    }
+
+    public GetBoardsResponse getBestBoards() {
+
+        Aggregation aggregation = Aggregation.newAggregation(
+                addFields().addField("likeCount").withValueOfToArraySize("like").build(),
+
+
+        )
+
+        return GetBoardsResponse.builder()
                 .boards(boards)
                 .build();
     }
