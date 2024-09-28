@@ -1,6 +1,5 @@
 package com.github.cokothon.domain.board.service;
 
-import com.github.cokothon.domain.auth.exception.NotPermitException;
 import com.github.cokothon.domain.board.dto.request.CreateBoardRequest;
 import com.github.cokothon.domain.board.dto.response.ReadBoardResponse;
 import com.github.cokothon.domain.board.exception.BoardNotFoundException;
@@ -10,7 +9,6 @@ import com.github.cokothon.domain.user.schema.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +35,8 @@ public class BoardService {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(BoardNotFoundException::new);
 
-        ReadBoardResponse readBoardResponse = ReadBoardResponse.builder()
+        return ReadBoardResponse.builder()
                 .board(board)
                 .build();
-
-        return readBoardResponse;
     }
 }
