@@ -34,4 +34,14 @@ public class BoardController {
 
         return ApiResponse.ok(boardService.readBoard(boardId));
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/modify/{boardId}")
+    public ApiResponse<Void> modifyBoard(@PathVariable("boardId") String boardId, @RequestBody CreateBoardRequest dto) {
+        User user = UserContext.getUser();
+
+        boardService.modifyBoard(boardId, user, dto);
+
+        return ApiResponse.ok();
+    }
 }
