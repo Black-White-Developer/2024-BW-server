@@ -13,3 +13,4 @@ spring:
       - classpath:config/email.yaml
       - classpath:config/jwt.yaml
       - classpath:config/mongo.yaml
+      - classpath:config/redis.yaml

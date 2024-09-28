@@ -7,11 +7,12 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.github.cokothon.common.property.JwtProperty;
+import com.github.cokothon.common.property.RedisProperty;
 
 @SpringBootApplication
 @EnableAsync
 @EnableMongoAuditing
-@EnableConfigurationProperties({JwtProperty.class})
+@EnableConfigurationProperties({JwtProperty.class, RedisProperty.class})
 public class Application {
 
 	public static void main(String[] args) {
