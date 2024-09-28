@@ -10,5 +10,6 @@ spring:
     log-resolved-exception: false
   config:
     import:
+      - classpath:config/email.yaml
       - classpath:config/jwt.yaml
       - classpath:config/mongo.yaml
