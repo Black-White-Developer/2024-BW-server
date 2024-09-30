@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -   name: Checkout repository
-          run: git clone https://github.com/Black-White-Developer/2024-BW-server.git Backend
+          run: git clone https://github.com/Cokothon-Idea-Bank/Backend.git
 
       -   name: Write config
           run: |
